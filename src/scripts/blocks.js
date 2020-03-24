@@ -15,7 +15,7 @@ dataBlocks = dataBlocks.reverse()
 
 // SVG
 let svgWidth = window.innerWidth
-let svgHeight = 400
+let svgHeight = 400 // TODO adjust automatically
 let svgBlocks = d3.select('.blocks')
                   .attr('width', svgWidth)
                   .attr('height', svgHeight)
