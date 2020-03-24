@@ -1,5 +1,6 @@
 // ----- Blocks -----
 // Dummy dataset of blocks
+// For now, we suppose that all the blocks are all in the dataset
 let dataBlocks = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
                   {'block_id': 1, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'},
                   {'block_id': 2, 'valid': 0, 'date': '2020-01-03', 'hash': 'jcfhsoj987OD4BOKNpal'},
@@ -156,26 +157,7 @@ function displayBlocks(dataset, svgBlocks, blockColor) { // pour l'instant ne ra
 
 displayBlocks(dataBlocks, svgBlocks, '#236ddb')
 
-
-
+// Update
 dataBlocks = [{'block_id': 10, 'valid': 0, 'date': '2020-03-13', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
                   {'block_id': 11, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'}]
 displayBlocks(dataBlocks, svgBlocks, 'green')
-
-
-
-// load dynamique
-
-// t+tard: que scroller gauche droite
-
-
-// opti: decharger blocks
-// quand on arrive au bout charger la suite
-// pour l'instant on a tout dans dataset
-// charger nombre de blocs defini
-
-
-// week 6: charger dynamiquzment
-// zoom bloquer que gauche droite, limite zoom min et max
-// scrollbar gauche droite
-// bouton reset zoom?
