@@ -19,14 +19,19 @@ let svgHeight = 400 // TODO adjust automatically
 let svgBlocks = d3.select('.blocks')
                   .attr('width', svgWidth)
                   .attr('height', svgHeight)
+                  .call(d3.zoom().on("zoom", function () {
+                    svgBlocks.attr("transform", d3.event.transform)
+                 }))
+                 .append("g")
 
 let blockPadding = 10
 let blockWidth = 300
 let blockHeight = 300
 
-// Rectangles
-svgBlocks.selectAll('rect')
-         .data(dataBlocks)
+function displayBlocks(dataset, svgBlocks) { // pour l'instant ne rajouter que des blocs à droite
+    console.log('function called ', dataset)
+    svgBlocks.selectAll('rect')
+         .data(dataset)
          .enter()
          .append('rect') // for each block, append it inside the svg container
          .attr('width', blockWidth - blockPadding)
@@ -38,65 +43,87 @@ svgBlocks.selectAll('rect')
          })
          .attr('fill', '#236ddb')
 
-// Text // TODO is a for-loop on dataset attributes possible?
-function placeText(pos) {
-    return 25 + pos*30
+/*
+        // Text // TODO is a for-loop on dataset attributes possible?
+    function placeText(pos) {
+        return 25 + pos*30
+    }
+*/
+
+/*
+    let texts = svgBlocks.selectAll('text')
+            .data(dataset)
+            .enter()
+
+    let textsColor = 'black'
+    texts.append('text')
+            .attr('x', function(d, i) {
+                return blockWidth*i + 5
+            })
+            .attr('y', placeText(1))
+            .text( function (d) { return 'block id: ' + d.block_id })
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '18px')
+            .attr('fill', textsColor)
+
+    let validColor = '#0cf01b'
+    let invalidColor = '#ed0e19'
+    texts.append('text')
+            .attr('x', function(d, i) {
+                return blockWidth*i + 5
+            })
+            .attr('y', placeText(2))
+            .text( function (d) {
+                let str = ''
+                if(d.valid == 1) {
+                    str = 'true'
+                } else {
+                    str = 'false'
+                }
+                return 'valid: ' + str
+            })
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '18px')
+            .attr('fill', function (d) {
+                if(d.valid == 1) return validColor
+                else return invalidColor
+            })
+
+    texts.append('text')
+            .attr('x', function(d, i) {
+                return blockWidth*i + 5
+            })
+            .attr('y', placeText(3))
+            .text( function (d) { return 'date: ' + d.date })
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '18px')
+            .attr('fill', textsColor)
+
+    texts.append('text')
+            .attr('x', function(d, i) {
+                return blockWidth*i + 5
+            })
+            .attr('y', placeText(4))
+            .text( function (d) { return 'hash: ' + d.hash })
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '18px')
+            .attr('fill', textsColor)
+            */
 }
 
-let texts = svgBlocks.selectAll('text')
-         .data(dataBlocks)
-         .enter()
+displayBlocks(dataBlocks, svgBlocks)
 
-let textsColor = 'black'
-texts.append('text')
-         .attr('x', function(d, i) {
-             return blockWidth*i + 5
-         })
-         .attr('y', placeText(1))
-         .text( function (d) { return 'block id: ' + d.block_id })
-         .attr('font-family', 'sans-serif')
-         .attr('font-size', '18px')
-         .attr('fill', textsColor)
 
-let validColor = '#0cf01b'
-let invalidColor = '#ed0e19'
-texts.append('text')
-         .attr('x', function(d, i) {
-             return blockWidth*i + 5
-         })
-         .attr('y', placeText(2))
-         .text( function (d) {
-             let str = ''
-             if(d.valid == 1) {
-                 str = 'true'
-             } else {
-                 str = 'false'
-             }
-             return 'valid: ' + str
-         })
-         .attr('font-family', 'sans-serif')
-         .attr('font-size', '18px')
-         .attr('fill', function (d) {
-             if(d.valid == 1) return validColor
-             else return invalidColor
-         })
 
-texts.append('text')
-         .attr('x', function(d, i) {
-             return blockWidth*i + 5
-         })
-         .attr('y', placeText(3))
-         .text( function (d) { return 'date: ' + d.date })
-         .attr('font-family', 'sans-serif')
-         .attr('font-size', '18px')
-         .attr('fill', textsColor)
+dataBlocks = [{'block_id': 10, 'valid': 0, 'date': '2020-03-13', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
+                  {'block_id': 11, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'}]
+displayBlocks(dataBlocks, svgBlocks)
 
-texts.append('text')
-         .attr('x', function(d, i) {
-             return blockWidth*i + 5
-         })
-         .attr('y', placeText(4))
-         .text( function (d) { return 'hash: ' + d.hash })
-         .attr('font-family', 'sans-serif')
-         .attr('font-size', '18px')
-         .attr('fill', textsColor)
+
+
+// load dynamique
+
+// t+tard: que scroller gauche droite
+
+
+// opti: decharger blocks
