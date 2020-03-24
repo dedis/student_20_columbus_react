@@ -28,34 +28,78 @@ let blockPadding = 10
 let blockWidth = 300
 let blockHeight = 300
 
-function displayBlocks(dataset, svgBlocks) { // pour l'instant ne rajouter que des blocs à droite
-    console.log('function called ', dataset)
-    svgBlocks.selectAll('rect')
-         .data(dataset)
-         .enter()
-         .append('rect') // for each block, append it inside the svg container
-         .attr('width', blockWidth - blockPadding)
-         .attr('height', blockHeight)
-         .attr('y', 25)
-         .attr('transform', function (d, i) {
-            let translate = [blockWidth*i, 0]
-            return 'translate('+ translate +')'
-         })
-         .attr('fill', '#236ddb')
+function placeText(pos) {
+    return 25 + pos*30
+}
 
-/*
-        // Text // TODO is a for-loop on dataset attributes possible?
-    function placeText(pos) {
-        return 25 + pos*30
+let textsColor = 'black'
+    let validColor = '#0cf01b'
+    let invalidColor = '#ed0e19'
+
+function displayBlocks(dataset, svgBlocks, blockColor) { // pour l'instant ne rajouter que des blocs à droite
+
+    let size = svgBlocks.selectAll('rect').size();
+    for(let i = 0; i < dataset.length; ++i) {
+        
+            const x_translate = blockWidth*(i + size)
+            const block = dataset[i]
+        
+            svgBlocks
+                .append('rect') // for each block, append it inside the svg container
+                .attr('width', blockWidth - blockPadding)
+                .attr('height', blockHeight)
+                .attr('y', 25)
+                .attr('transform', function (d) {
+                    let translate = [x_translate, 0]
+                    return 'translate('+ translate +')'
+                })
+                .attr('fill', blockColor)
+    
+
+                svgBlocks.append('text')
+                .attr('x', x_translate + 5)
+                .attr('y', placeText(1))
+                .text( 'block id: ' + block.block_id)
+                .attr('font-family', 'sans-serif')
+                .attr('font-size', '18px')
+                .attr('fill', textsColor)
+                
+
+
     }
-*/
+        
+    
 
+
+    
 /*
+
+        // Text // TODO is a for-loop on dataset attributes possible?
+    
+
     let texts = svgBlocks.selectAll('text')
             .data(dataset)
             .enter()
 
     let textsColor = 'black'
+    let validColor = '#0cf01b'
+    let invalidColor = '#ed0e19'
+
+    for(int i = 0; i < )
+    svgBlocks.selectAll('rect').each(element => {
+        svgBlocks.append('text')
+        .attr('x', function(d, i) {
+            return blockWidth*size + 5
+        })
+        .attr('y', placeText(1))
+        .text( 'block id: ' + element.block_id )
+        .attr('font-family', 'sans-serif')
+        .attr('font-size', '18px')
+        .attr('fill', textsColor)
+    })
+
+
+    /*
     texts.append('text')
             .attr('x', function(d, i) {
                 return blockWidth*i + 5
@@ -66,8 +110,7 @@ function displayBlocks(dataset, svgBlocks) { // pour l'instant ne rajouter que d
             .attr('font-size', '18px')
             .attr('fill', textsColor)
 
-    let validColor = '#0cf01b'
-    let invalidColor = '#ed0e19'
+    
     texts.append('text')
             .attr('x', function(d, i) {
                 return blockWidth*i + 5
@@ -111,13 +154,13 @@ function displayBlocks(dataset, svgBlocks) { // pour l'instant ne rajouter que d
             */
 }
 
-displayBlocks(dataBlocks, svgBlocks)
+displayBlocks(dataBlocks, svgBlocks, '#236ddb')
 
 
 
 dataBlocks = [{'block_id': 10, 'valid': 0, 'date': '2020-03-13', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
                   {'block_id': 11, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'}]
-displayBlocks(dataBlocks, svgBlocks)
+displayBlocks(dataBlocks, svgBlocks, 'green')
 
 
 
@@ -127,3 +170,12 @@ displayBlocks(dataBlocks, svgBlocks)
 
 
 // opti: decharger blocks
+// quand on arrive au bout charger la suite
+// pour l'instant on a tout dans dataset
+// charger nombre de blocs defini
+
+
+// week 6: charger dynamiquzment
+// zoom bloquer que gauche droite, limite zoom min et max
+// scrollbar gauche droite
+// bouton reset zoom?
