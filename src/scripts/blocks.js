@@ -34,10 +34,10 @@ function placeText(pos) {
 }
 
 let textsColor = 'black'
-    let validColor = '#0cf01b'
-    let invalidColor = '#ed0e19'
+let validColor = '#0cf01b'
+let invalidColor = '#ed0e19'
 
-function displayBlocks(dataset, svgBlocks, blockColor) { // pour l'instant ne rajouter que des blocs à droite
+function displayBlocks(dataset, svgBlocks, blockColor) {
 
     let size = svgBlocks.selectAll('rect').size();
     for(let i = 0; i < dataset.length; ++i) {
@@ -45,114 +45,61 @@ function displayBlocks(dataset, svgBlocks, blockColor) { // pour l'instant ne ra
             const x_translate = blockWidth*(i + size)
             const block = dataset[i]
         
-            svgBlocks
-                .append('rect') // for each block, append it inside the svg container
-                .attr('width', blockWidth - blockPadding)
-                .attr('height', blockHeight)
-                .attr('y', 25)
-                .attr('transform', function (d) {
-                    let translate = [x_translate, 0]
-                    return 'translate('+ translate +')'
-                })
-                .attr('fill', blockColor)
+            svgBlocks.append('rect') // for each block, append it inside the svg container
+                     .attr('width', blockWidth - blockPadding)
+                     .attr('height', blockHeight)
+                     .attr('y', 25)
+                     .attr('transform', function (d) {
+                         let translate = [x_translate, 0]
+                         return 'translate('+ translate +')'
+                     })
+                     .attr('fill', blockColor)
     
 
-                svgBlocks.append('text')
-                .attr('x', x_translate + 5)
-                .attr('y', placeText(1))
-                .text( 'block id: ' + block.block_id)
-                .attr('font-family', 'sans-serif')
-                .attr('font-size', '18px')
-                .attr('fill', textsColor)
+            svgBlocks.append('text')
+                     .attr('x', x_translate + 5)
+                     .attr('y', placeText(1))
+                     .text( 'block id: ' + block.block_id)
+                     .attr('font-family', 'sans-serif')
+                     .attr('font-size', '18px')
+                     .attr('fill', textsColor)
                 
+            svgBlocks.append('text')
+                     .attr('x', x_translate + 5)
+                     .attr('y', placeText(2))
+                     .text( function (d) {
+                        let str = ''
+                        if(block.valid == 1) {
+                            str = 'true'
+                        } else {
+                            str = 'false'
+                        }
+                        return 'valid: ' + str
+                     })
+                     .attr('font-family', 'sans-serif')
+                     .attr('font-size', '18px')
+                     .attr('fill', function (d) {
+                        if(block.valid == 1) return validColor
+                        else return invalidColor
+                     })
 
+            svgBlocks.append('text')
+                     .attr('x', x_translate + 5)
+                     .attr('y', placeText(3))
+                     .text( function (d) { return 'date: ' + block.date })
+                     .attr('font-family', 'sans-serif')
+                     .attr('font-size', '18px')
+                     .attr('fill', textsColor)
+
+            svgBlocks.append('text')
+                     .attr('x', x_translate + 5)
+                     .attr('y', placeText(4))
+                     .text( function (d) { return 'hash: ' + block.hash })
+                     .attr('font-family', 'sans-serif')
+                     .attr('font-size', '18px')
+                     .attr('fill', textsColor)
 
     }
-        
-    
-
-
-    
-/*
-
-        // Text // TODO is a for-loop on dataset attributes possible?
-    
-
-    let texts = svgBlocks.selectAll('text')
-            .data(dataset)
-            .enter()
-
-    let textsColor = 'black'
-    let validColor = '#0cf01b'
-    let invalidColor = '#ed0e19'
-
-    for(int i = 0; i < )
-    svgBlocks.selectAll('rect').each(element => {
-        svgBlocks.append('text')
-        .attr('x', function(d, i) {
-            return blockWidth*size + 5
-        })
-        .attr('y', placeText(1))
-        .text( 'block id: ' + element.block_id )
-        .attr('font-family', 'sans-serif')
-        .attr('font-size', '18px')
-        .attr('fill', textsColor)
-    })
-
-
-    /*
-    texts.append('text')
-            .attr('x', function(d, i) {
-                return blockWidth*i + 5
-            })
-            .attr('y', placeText(1))
-            .text( function (d) { return 'block id: ' + d.block_id })
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', '18px')
-            .attr('fill', textsColor)
-
-    
-    texts.append('text')
-            .attr('x', function(d, i) {
-                return blockWidth*i + 5
-            })
-            .attr('y', placeText(2))
-            .text( function (d) {
-                let str = ''
-                if(d.valid == 1) {
-                    str = 'true'
-                } else {
-                    str = 'false'
-                }
-                return 'valid: ' + str
-            })
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', '18px')
-            .attr('fill', function (d) {
-                if(d.valid == 1) return validColor
-                else return invalidColor
-            })
-
-    texts.append('text')
-            .attr('x', function(d, i) {
-                return blockWidth*i + 5
-            })
-            .attr('y', placeText(3))
-            .text( function (d) { return 'date: ' + d.date })
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', '18px')
-            .attr('fill', textsColor)
-
-    texts.append('text')
-            .attr('x', function(d, i) {
-                return blockWidth*i + 5
-            })
-            .attr('y', placeText(4))
-            .text( function (d) { return 'hash: ' + d.hash })
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', '18px')
-            .attr('fill', textsColor)
-            */
 }
 
 displayBlocks(dataBlocks, svgBlocks, '#236ddb')
