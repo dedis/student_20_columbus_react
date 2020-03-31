@@ -1,6 +1,7 @@
 // ----- Blocks -----
 // Dummy dataset of blocks
 // For now, we suppose that all the blocks are all in the dataset
+
 let dataBlocks = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
                   {'block_id': 1, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'},
                   {'block_id': 2, 'valid': 0, 'date': '2020-01-03', 'hash': 'jcfhsoj987OD4BOKNpal'},
@@ -27,7 +28,9 @@ let dataBlocks = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZ
                   {'block_id': 23, 'valid': 1, 'date': '2020-03-12', 'hash': 'kUrTKHOdTe71CuHd2Pu0'}]
 
 dataBlocks = dataBlocks.reverse()
-
+/*
+let dataBlocks = d3.csv("../data/blocks.csv")
+*/
 // SVG
 let svgWidth = window.innerWidth
 let svgHeight = 400 // TODO adjust automatically
