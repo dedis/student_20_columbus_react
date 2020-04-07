@@ -1,8 +1,8 @@
 // ----- Blocks -----
 // Dummy dataset of blocks
 // For now, we suppose that all the blocks are all in the dataset
-
-let dataBlocks = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
+/*
+let dataset = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
                   {'block_id': 1, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'},
                   {'block_id': 2, 'valid': 0, 'date': '2020-01-03', 'hash': 'jcfhsoj987OD4BOKNpal'},
                   {'block_id': 3, 'valid': 1, 'date': '2020-01-15', 'hash': 'c5JL5wfHvtVKWC6z2Glz'},
@@ -27,10 +27,39 @@ let dataBlocks = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZ
                   {'block_id': 22, 'valid': 1, 'date': '2020-02-28', 'hash': 'Qn6kox7v9u8dRHRUqmc9'},
                   {'block_id': 23, 'valid': 1, 'date': '2020-03-12', 'hash': 'kUrTKHOdTe71CuHd2Pu0'}]
 
-dataBlocks = dataBlocks.reverse()
-/*
-let dataBlocks = d3.csv("../data/blocks.csv")
+dataset = dataset.reverse()
 */
+let dataset = []
+
+function loadBlocks(start, end) {
+    d3.csv('blocks.csv').then(function(data) {
+        for(let i = start; i <= end; ++i) {
+            dataset[i] = data[i]
+        }
+        console.log(dataset)
+    })
+    .catch(function(error){
+       // handle error   
+    })
+    console.log(dataset)
+}
+
+function loadAllBlocks() {
+    d3.csv('blocks.csv').then(function(data) {
+        for(let i = 0; i < data.length; ++i) {
+            dataset[i] = data[i]
+        }
+        console.log(dataset[0])
+    })
+    .catch(function(error){
+       // handle error   
+    })
+    console.log(dataset)
+}
+
+loadAllBlocks()
+console.log(dataset[0]) // TODO
+/*
 // SVG
 let svgWidth = window.innerWidth
 let svgHeight = 400 // TODO adjust automatically
@@ -56,7 +85,7 @@ let invalidColor = '#ed0e19'
 
 let loadedBlocksMin = -1
 let loadedBlocksMax = -1
-
+*/
 /**
  * 
  * @param {*} dataset list of blocks with their attributes
@@ -65,6 +94,7 @@ let loadedBlocksMax = -1
  * @param {*} start index of the first block to display
  * @param {*} end index of the last block to display
  */
+/*
 function displayBlocks(dataset, svgBlocks, blockColor, start, end) {
 
     let size = svgBlocks.selectAll('rect').size();
@@ -140,13 +170,14 @@ function displayBlocks(dataset, svgBlocks, blockColor, start, end) {
     }
 }
 
-displayBlocks(dataBlocks, svgBlocks, '#236ddb', 0, 9)
+displayBlocks(dataset, svgBlocks, '#236ddb', 0, 9)
 loadedBlocksMin = 0
 loadedBlocksMax = 9
 
 // Load more blocks
-displayBlocks(dataBlocks, svgBlocks, 'green', 10, 19)
+displayBlocks(dataset, svgBlocks, 'green', 10, 19)
 loadedBlocksMax = 19
 
-displayBlocks(dataBlocks, svgBlocks, 'orange', 20, 23)
+displayBlocks(dataset, svgBlocks, 'orange', 20, 23)
 loadedBlocksMax = 23
+*/
