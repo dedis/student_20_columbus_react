@@ -1,7 +1,9 @@
+//import * as rxjs from '../node_modules/rxjs'
+
 // ----- Blocks -----
 // Dummy dataset of blocks
 // For now, we suppose that all the blocks are all in the dataset
-/*
+
 let dataset = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
                   {'block_id': 1, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'},
                   {'block_id': 2, 'valid': 0, 'date': '2020-01-03', 'hash': 'jcfhsoj987OD4BOKNpal'},
@@ -27,49 +29,25 @@ let dataset = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZPAy
                   {'block_id': 22, 'valid': 1, 'date': '2020-02-28', 'hash': 'Qn6kox7v9u8dRHRUqmc9'},
                   {'block_id': 23, 'valid': 1, 'date': '2020-03-12', 'hash': 'kUrTKHOdTe71CuHd2Pu0'}]
 
-dataset = dataset.reverse()
-*/
-let dataset = []
+//dataset = dataset.reverse()
 
-function loadBlocks(start, end) {
-    d3.csv('blocks.csv').then(function(data) {
-        for(let i = start; i <= end; ++i) {
-            dataset[i] = data[i]
-        }
-        console.log(dataset)
-    })
-    .catch(function(error){
-       // handle error   
-    })
-    console.log(dataset)
-}
-
-function loadAllBlocks() {
-    d3.csv('blocks.csv').then(function(data) {
-        for(let i = 0; i < data.length; ++i) {
-            dataset[i] = data[i]
-        }
-        console.log(dataset[0])
-    })
-    .catch(function(error){
-       // handle error   
-    })
-    console.log(dataset)
-}
-
-loadAllBlocks()
-console.log(dataset[0]) // TODO
-/*
 // SVG
 let svgWidth = window.innerWidth
 let svgHeight = 400 // TODO adjust automatically
 let svgBlocks = d3.select('.blocks')
                   .attr('width', svgWidth)
                   .attr('height', svgHeight)
-                  .call(d3.zoom().on("zoom", function () {
+                  .call(d3.zoom().on("zoom", function (e) {
                     svgBlocks.attr("transform", d3.event.transform)
+
+                    console.log(d3.event.transform)
+                    // k is the zoom level
+                    
+                    updateBlocks(d3.event.transform.x, d3.event.transform.k)
                  }))
                  .append("g")
+
+                 
 
 let blockPadding = 10
 let blockWidth = 300
@@ -84,8 +62,19 @@ let validColor = '#0cf01b'
 let invalidColor = '#ed0e19'
 
 let loadedBlocksMin = -1
-let loadedBlocksMax = -1
-*/
+let lastBlockIndex = -1
+
+
+function getBlocks() {
+    const observable = new Observable(subscriber => {
+        subscriber.next(dataset)
+        subscriber.next(dataset)
+    })
+    return observable
+}
+
+
+
 /**
  * 
  * @param {*} dataset list of blocks with their attributes
@@ -94,10 +83,9 @@ let loadedBlocksMax = -1
  * @param {*} start index of the first block to display
  * @param {*} end index of the last block to display
  */
-/*
 function displayBlocks(dataset, svgBlocks, blockColor, start, end) {
 
-    let size = svgBlocks.selectAll('rect').size();
+    //let size = svgBlocks.selectAll('rect').size();
     let length = dataset.length
 
     let start_min = -1
@@ -108,13 +96,13 @@ function displayBlocks(dataset, svgBlocks, blockColor, start, end) {
     if(end < length) end_max = end
     else end_max = length
 
-    for(let i = start; i <= end_max; ++i) {
+    for(let i = start; i < end_max; ++i, ++lastBlockIndex) {
         
-            const x_translate = blockWidth*(i - start_min + size)
+            const x_translate = (blockWidth + blockPadding)*(lastBlockIndex + 1)
             const block = dataset[i]
         
             svgBlocks.append('rect') // for each block, append it inside the svg container
-                     .attr('width', blockWidth - blockPadding)
+                     .attr('width', blockWidth)
                      .attr('height', blockHeight)
                      .attr('y', 25)
                      .attr('transform', function (d) {
@@ -122,7 +110,7 @@ function displayBlocks(dataset, svgBlocks, blockColor, start, end) {
                          return 'translate('+ translate +')'
                      })
                      .attr('fill', blockColor)
-    
+            
 
             svgBlocks.append('text')
                      .attr('x', x_translate + 5)
@@ -168,12 +156,18 @@ function displayBlocks(dataset, svgBlocks, blockColor, start, end) {
                      .attr('fill', textsColor)
 
     }
+    //++lastBlockIndex
 }
 
-displayBlocks(dataset, svgBlocks, '#236ddb', 0, 9)
-loadedBlocksMin = 0
-loadedBlocksMax = 9
+let windowWidth = window.screen.width
+let nbBlocksUpdate = 10//(windowWidth/(blockWidth + blockPadding))*2
+console.log(nbBlocksUpdate)
 
+displayBlocks(dataset, svgBlocks, '#236ddb', 0, nbBlocksUpdate)
+console.log('load ' + lastBlockIndex)
+//loadedBlocksMin = 0
+//loadedBlocksMax = nbBlocksUpdate
+/*
 // Load more blocks
 displayBlocks(dataset, svgBlocks, 'green', 10, 19)
 loadedBlocksMax = 19
@@ -181,3 +175,44 @@ loadedBlocksMax = 19
 displayBlocks(dataset, svgBlocks, 'orange', 20, 23)
 loadedBlocksMax = 23
 */
+//function triggered when translate changes to update blocks
+
+// loader qui tourne
+// arrêter de loader tant que ça charge
+
+function updateBlocks(x, zoom_level) {
+    
+    const obs = getBlocks()
+    obs.subscribe({
+        next: data => { console.log(data) }
+    })
+
+    //let nbBlocks = dataset.length
+    //console.log('test' + nbBlocks)
+    let xMax = lastBlockIndex*(blockWidth + blockPadding)
+    xMax -= windowWidth + blockWidth
+    xMax *= zoom_level*-1
+    if(x < xMax) {
+        if(lastBlockIndex <= dataset.length) {
+            console.log('update')
+            //loaderAnimation() // TODO // enlever le loader, ajouter blocs, ajouter loader
+            displayBlocks(dataset, svgBlocks, 'orange', lastBlockIndex + 1, lastBlockIndex + nbBlocksUpdate)
+            console.log('load ' + lastBlockIndex)
+            //loadedBlocksMax += nbBlocksUpdate
+        }
+        //console.log('test2')
+    }
+}
+
+
+function loaderAnimation() {
+    svgBlocks.append('rect')
+        .attr('width', blockWidth)
+        .attr('height', blockHeight)
+        .attr('y', 25)
+        .attr('transform', function (d) {
+            let translate = [lastBlockIndex*(blockWidth + blockPadding), 0]
+            return 'translate('+ translate +')'
+        })
+        .attr('fill', 'red')
+}

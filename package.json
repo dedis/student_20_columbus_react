@@ -1,0 +1,24 @@
+{
+  "name": "student_20_columbus_react",
+  "version": "1.0.0",
+  "description": "Implementation of an intuitive and insightful blockchain explorer - by Iozzia Anthony Lucien",
+  "main": "src/blocks.js",
+  "type": "module",
+  "dependencies": {
+    "rxjs": "^6.5.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dedis/student_20_columbus_react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dedis/student_20_columbus_react/issues"
+  },
+  "homepage": "https://github.com/dedis/student_20_columbus_react#readme"
+}
