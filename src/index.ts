@@ -6,6 +6,7 @@ import { PaginateResponse, PaginateRequest } from '@dedis/cothority/byzcoin/prot
 import { Subject } from 'rxjs';
 import { DataBody } from '@dedis/cothority/byzcoin/proto';
 import * as d3 from 'd3';
+import { Browse } from './browse';
 
 var roster: Roster;
 var ws: WebSocketAdapter;
@@ -35,6 +36,9 @@ export function sayHi() {
   document.getElementById("show").addEventListener("click", show)
   
   container = d3.select("body").append("div").attr("id", "container")
+
+
+  Browse.main();
 }
 
 function createText(texts: string[], args?: Argument[]){/*
@@ -401,14 +405,14 @@ function hex2Bytes(hex: string) {
 }
 
 const rosterStr = `[[servers]]
-Address = "tls://localhost:7774"
+Address = "tls://127.0.0.1:7770"
 Suite = "Ed25519"
-Public = "ecadb93eb86aeedddd3d4c303da498509e7119a4c01647aa7cf07e261dd52a5c"
-Description = "Conode_3"
+Public = "dde71927c99730adfe1b1147771c2d682140289d5293e7c1c4bcba75a6307120"
+Description = "New cothority"
 [servers.Services]
   [servers.Services.ByzCoin]
-    Public = "010d565a237dc05ed38b014167373ff45e8c4ae265cd6dd4038c4a4c29fac1ed2c2214a04a90fd83e8453aa5f5df162684bd094efcc3d959aeee8ffd6d1812795ab73d741e266fa11762c6dae04b36c807fc09d2c3317e13d857318d7559e6d63a52b5081bc85dbc5f860bc47026f10433d986ccf461d966bdde7c1324c00d96"
+    Public = "1f2278346c191ba958c8ba93f31c7d6bba34a888c83eb118f45864970683f41461894c2bb275dcb1997599f3b807e503b571b3eb47e80ed04c75e1350c5fbc6f00acebf5dfad3453c3df9bd67b839062b6c4b546764ccff55a8cbf432c69ef9352d16f2ae381befd8d872a0687ae216c431d4a9e2c5c09a2858b0cbb5ee79139"
     Suite = "bn256.adapter"
   [servers.Services.Skipchain]
-    Public = "7f95890301ca1ea4b0894ada7a88f774fe318552029550ac311dc36a9247325c04ad60cc0e25a19918cbeef3dec7fee9a8a0842daeeff63f7c553bd10cf46cb470b092ed74dcd50383303cc71f3cbd1147bf4e86960bcdfff1d40ab69cd8162c5138f56a2d6e6f738591f1b6ce5e893fd4115792d521b1d67fed8b84118cc254"
+    Public = "8e9d46ae873a0d5d3065f27695c31175fd74f7fd1174c808cea9dd2eba3494e25b44b7ce1187d8e01be0904c11f156c4bbf1cbe863b625279fbdeec9aff763135858a29b3115488d0fe8c15647031f338382e355a2ed04109553c407478ae17a03e4ca539a06594d3d7d71e9b9ad7374552b23a7cd7dc7a8770b5d4e8b41a03a"
     Suite = "bn256.adapter"`;

@@ -15,6 +15,10 @@
     <button id="show">Number of blocks seen already</button><br>
   </div>
 
+  <div class='blocksContainer'>
+    <svg class='blocks'></svg>
+  </div>
+
 </body>
 <script>
   jsapp.sayHi();
@@ -26,6 +30,18 @@
     width: 1500;
     border: 5px solid #000;
     overflow: scroll;
+  }
+
+  .blocksContainer {
+    height: 350px;  /* TODO adjust automatically (function of page size) */
+    border:0px solid #000;
+    /*overflow-y: hidden;
+    overflow-x: scroll;*/
+  }
+
+  .blocks {
+      display: block;
+      width: 100%;
   }
 </style>
 
