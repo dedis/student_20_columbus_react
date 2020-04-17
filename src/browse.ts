@@ -7,9 +7,7 @@ export class Browse {
     }
 }
 
-
-
-/* ----- Blocks ----- */
+/* ----- Mock blocks ----- */
 let blocksDataset = [{'block_id': 0, 'valid': 1, 'date': '2020-01-01', 'hash': '9jZPAyiIzf3XfBcT8WaG'},
                      {'block_id': 1, 'valid': 1, 'date': '2020-01-02', 'hash': 'vs3H2CgTfs3qCXxiEgJA'},
                      {'block_id': 2, 'valid': 0, 'date': '2020-01-03', 'hash': 'jcfhsoj987OD4BOKNpal'},
@@ -66,10 +64,6 @@ let nbBlocksUpdate = 10//(windowWidth/(blockWidth + blockPadding))*2
 let indexFirstBlockToDisplay = 0
 
 //displayBlocks(blocksDataset, svgBlocks, blockColor, indexFirstBlockToDisplay, indexFirstBlockToDisplay + nbBlocksUpdate - 1)
-
-
-
-
 
 /* ----- Functions ----- */
 function placeText(pos: number) {
@@ -197,8 +191,8 @@ function displayBlocks(blocksDataset, svgBlocks, blockColor, start, end) {
     }
 }
 */
+
 // Source: https://stackoverflow.com/a/1152508
 function getRandomColor() {
     return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
 }
-

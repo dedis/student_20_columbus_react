@@ -37,7 +37,7 @@ export function sayHi() {
   
   container = d3.select("body").append("div").attr("id", "container")
 
-
+  // Blocks UI
   Browse.main();
 }
 
