@@ -38,7 +38,7 @@ export function sayHi() {
   container = d3.select("body").append("div").attr("id", "container")
 
   // Blocks UI
-  let browseBlocks = new BrowseBlocks()
+  let browseBlocks = new BrowseBlocks(roster)
   browseBlocks.main()
 }
 
